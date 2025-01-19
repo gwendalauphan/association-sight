@@ -11,7 +11,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -24,41 +23,54 @@ jobs:
       actions: 'write'
       checks: 'write'
       deployments: 'write'
+      
     strategy:
       matrix:
         node-version: [22.13]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    # 1. Récupération du code
     - uses: actions/checkout@v3
+
+    # 2. Configuration de Node
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        # Active le caching npm
         cache: 'npm'
+        # Indique où se trouve le lock file pour le cache
+        cache-dependency-path: 'frontend/package-lock.json'
+    
+    # 3. Installation des dépendances
     - name: Install dependencies
-      # Using npm ci is generally faster than running npm i because it caches dependencies
-      run: |
-        cd frontend
-        npm ci
+      working-directory: frontend
+      run: npm ci
+    
+    # 4. Build de l'application
     - name: Build the app
-      run: |
-        cd frontend
-        npm run build
+      working-directory: frontend
+      run: npm run build
+    
+    # 5. Test (optionnel, si tu as des tests)
     - name: Run component tests
-      run: |
-        cd frontend
-        npm run test
+      working-directory: frontend
+      run: npm run test
         
+    # 6. Préparation de la publication sur GitHub Pages
     - name: Setup Pages
       uses: actions/configure-pages@v3
+    
+    # 7. Upload des artifacts (build)
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        # Upload frontend/build directory content
-        path: 'frontend/build/'
+        # Pour un projet Vite, la sortie du build est souvent "dist" (vérifie ton config)
+        path: 'frontend/dist/'
+
+    # 8. Déploiement vers GitHub Pages
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v1
-      env:  
+      env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

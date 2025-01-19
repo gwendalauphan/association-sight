@@ -1,5 +1,4 @@
 // src/App.tsx
-import React from 'react'
 
 // Vous pouvez remplacer cette URL par l'URL de votre choix
 const TOP_IMAGE_URL = "https://via.placeholder.com/600x200"

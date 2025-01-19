@@ -1,0 +1,28 @@
+# Logs
+**/logs
+**/*.log
+npm-debug.log*
+
+# Runtime data
+**/pids
+**/*.pid
+**/*.seed
+**/*.pid.lock
+
+# Vite cache
+**/*.vite
+
+# Dependencies
+**/node_modules/
+**/.pnp
+**/.pnp.js
+
+# Builds
+**/dist/
+**/*.local
+
+# Editor directories and files
+**/.vscode/
+**/.idea/
+.DS_Store
+.env

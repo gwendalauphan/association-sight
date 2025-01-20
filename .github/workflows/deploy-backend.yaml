@@ -6,6 +6,7 @@ on:
     paths:
       - 'backend/**'   # Se déclenche uniquement si des fichiers dans backend/ changent
       - '.github/workflows/**'
+      - 'ansible/**'
 
 jobs:
   deploy-backend:

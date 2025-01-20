@@ -1,0 +1,42 @@
+---
+- name: Déployer l'application Flask sur le VPS
+  hosts: vps
+  become: true  # si vous avez besoin d'élévation de privilèges pour exécuter Docker
+
+  tasks:
+    - name: Vérifier si le dossier /opt/flask_app existe
+      stat:
+        path: /opt/flask_app
+      register: flask_app_dir
+
+    - name: Arrêter et supprimer d'anciens conteneurs (s'il y en a)
+      when: flask_app_dir.stat.exists
+      command: docker compose down
+      args:
+        chdir: /opt/flask_app
+      ignore_errors: true  # si jamais on n'a pas encore déployé, on ignore les erreurs
+
+    - name: Supprimer l'ancien répertoire de déploiement (pour 'remplacer' complètement)
+      file:
+        path: /opt/flask_app
+        state: absent
+      when: flask_app_dir.stat.exists
+
+    - name: Créer le répertoire /opt/flask_app
+      file:
+        path: /opt/flask_app
+        state: directory
+        mode: '0755'
+
+    - name: Copier les nouveaux fichiers de l'application vers le VPS
+      copy:
+        src: ../app/  # chemin relatif ou absolu vers votre dossier local contenant l'app
+        dest: /opt/flask_app/
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: (Re)Lancer l'application avec docker compose
+      command: docker compose up -d
+      args:
+        chdir: /opt/flask_app

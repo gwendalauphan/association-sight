@@ -1,0 +1,48 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'   # Se déclenche uniquement si des fichiers dans backend/ changent
+
+jobs:
+  deploy-backend:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Récupère le code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Configure la clé SSH
+      #    On écrit la clé privée depuis le secret GitHub
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        shell: bash
+
+      # 3. Installer Ansible
+      #    (selon ton runner Ubuntu, Ansible n'est pas forcément installé par défaut)
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+        shell: bash
+
+      # 4. Désactiver la vérification de l’empreinte hôte si besoin
+      #    (optionnel, recommandé seulement pour l’automatisation)
+      - name: Disable host key checking (optional)
+        run: |
+          echo 'export ANSIBLE_HOST_KEY_CHECKING=False' >> $GITHUB_ENV
+        shell: bash
+
+      # 5. Lancer le playbook Ansible
+      - name: Run ansible-playbook
+        run: |
+          cd ansible/
+          ansible-playbook -i inventory.ini deploy.yml \
+            --private-key ~/.ssh/id_rsa
+        shell: bash

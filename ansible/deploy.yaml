@@ -30,7 +30,7 @@
 
     - name: Copier les nouveaux fichiers de l'application vers le VPS
       copy:
-        src: ../app/  # chemin relatif ou absolu vers votre dossier local contenant l'app
+        src: ../backend/  # chemin relatif ou absolu vers votre dossier local contenant l'app
         dest: /opt/flask_app/
         owner: root
         group: root

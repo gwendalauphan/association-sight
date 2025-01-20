@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
     paths:
       - 'backend/**'   # Se déclenche uniquement si des fichiers dans backend/ changent
+      - '.github/workflows/**'
 
 jobs:
   deploy-backend:

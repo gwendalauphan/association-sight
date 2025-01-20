@@ -43,6 +43,6 @@ jobs:
       - name: Run ansible-playbook
         run: |
           cd ansible/
-          ansible-playbook -i inventory.ini deploy.yml \
+          ansible-playbook -i inventory.ini deploy.yaml \
             --private-key ~/.ssh/id_rsa
         shell: bash

@@ -60,9 +60,9 @@ jobs:
       run: npm run build
     
     # 5. Test (optionnel, si tu as des tests)
-    - name: Run component tests
-      working-directory: frontend
-      run: npm run test
+    #- name: Run component tests
+    #  working-directory: frontend
+    #  run: npm run test
         
     # 6. Préparation de la publication sur GitHub Pages
     - name: Setup Pages

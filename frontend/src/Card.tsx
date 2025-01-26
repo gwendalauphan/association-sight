@@ -1,15 +1,28 @@
 //import React from 'react'
 
-interface CardProps {
-    title: string;
-    imageUrl: string;
-    buttonText: string;
-    description: string;
-    tags: string[];
-  }
+import { CardData } from "./types" // exemple de centralisation de l'interface
+
+
+interface CardProps extends CardData {
+    onButtonClick?: (cardData: CardData) => void
+}
   
 
-function Card({ title, imageUrl, buttonText, description, tags }: CardProps) {
+function Card({
+  title,
+  imageUrl,
+  imagesCardDetails,
+  buttonText,
+  description,
+  tags,
+  onButtonClick,
+}: CardProps) {
+    const handleClick = () => {
+        if (onButtonClick) {
+            // On envoie toutes les données de la carte
+            onButtonClick({ title, imageUrl, imagesCardDetails, buttonText, description, tags })
+        }
+    }
   return (
     <div className="bg-white rounded-3xl shadow-lg overflow-hidden p-4">
       <img
@@ -43,6 +56,7 @@ function Card({ title, imageUrl, buttonText, description, tags }: CardProps) {
 
         {/* Bouton */}
         <button
+          onClick={handleClick}
           className="
             py-2 px-4 
             bg-black 

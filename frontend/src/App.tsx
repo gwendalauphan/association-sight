@@ -1,15 +1,43 @@
-//import React from 'react'
+import React, { useState } from "react"
 import Card from './Card'
+import AssociationDetails from './AssociationDetails'
 import  cardsData  from "./data";
+import { CardData } from "./types" // l'interface CardData
 // Import des icônes sociales
 import { SocialIcon } from 'react-social-icons'
 
 function App() {
+  const [showOverlay, setShowOverlay] = useState(false)
+  const [selectedCard, setSelectedCard] = useState<CardData | null>(null)
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  // Quand on clique sur le bouton d'une carte, on reçoit son "cardData"
+  const handleOpenOverlay = (index: number) => {
+    setSelectedIndex(index);
+    setShowOverlay(true);
+  };
+  
+
+  const handleCloseOverlay = () => {
+    setShowOverlay(false)
+    setSelectedCard(null)
+  }
+
+  // Gestion du "précédent" et "suivant"
+  const handlePrev = () => {
+    setSelectedIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : cardsData.length - 1
+    );
+  };
+  const handleNext = () => {
+    setSelectedIndex((prevIndex) =>
+      prevIndex < cardsData.length - 1 ? prevIndex + 1 : 0
+    );
+  };
+
   return (
-    <div className="relative flex flex-col min-h-screen        // Applique un flou significatif
-      
-      bg-cover bg-center 
-      "
+    <div className="relative flex flex-col min-h-screen bg-cover bg-center"
       style={{ 
         backgroundImage: "url('aqua-grey-theme.png')" 
       }}
@@ -48,13 +76,24 @@ function App() {
                 key={index}
                 title={card.title}
                 imageUrl={card.imageUrl}
+                imagesCardDetails={card.imagesCardDetails}
                 buttonText={card.buttonText}
                 description={card.description}
                 tags={card.tags}
+                onButtonClick={() => handleOpenOverlay(index)}
               />
             ))}
           </div>
         </main>
+        {/* Affichage conditionnel de l'overlay */}
+        {showOverlay && (
+          <AssociationDetails
+            onClose={handleCloseOverlay}
+            cardData={cardsData[selectedIndex]}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
+        )}
       </div>
       <div className= "pt-8">
         

@@ -21,6 +21,9 @@ services:
     environment:
       - DATABASE_FILE=/app/data/data.db
 
+    networks:
+      - apisight_network
+
 volumes:
   apisight_data:
 

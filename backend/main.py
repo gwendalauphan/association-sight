@@ -1,11 +1,19 @@
 # app/main.py
-
+#Import logging
+import logging
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 
 import sqlite3
 import os
+
+#conf logs
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+
+#test d'un log
+logger.info("Hello World")
 
 app = Flask(__name__)
 CORS(app)  # Autorise toutes les origines

@@ -6,6 +6,8 @@ FROM python:3.10-slim
 # 2) Définition du répertoire de travail dans le conteneur
 WORKDIR /app
 
+ENV FLASK_APP=main.py
+
 # 3) Copier les fichiers nécessaires
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
@@ -20,4 +22,5 @@ RUN python init_db.py
 EXPOSE 5000
 
 # 6) Lancer l'application Flask
-CMD ["python", "main.py"]
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "main:app"]
+

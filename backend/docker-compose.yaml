@@ -3,7 +3,9 @@ version: "3.9"
 services:
   apisight:
     container_name: apisight
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     # Dans le cas où vous auriez besoin d'un restart automatique en cas de crash
     restart: unless-stopped
 

@@ -9,10 +9,10 @@
         path: /home/rocky/swagconfig
       register: swagconfig_dir
 
-    - name: Mettre à jour le dossier swag/proxy-confs
+    - name: Mettre à jour les fichiers dans swag/proxy-confs
       copy:
-        src: ../swag/proxy-confs
-        dest: /home/rocky/swagconfig/proxy-confs
+        src: ../swag/proxy-confs/
+        dest: /home/rocky/swagconfig/proxy-confs/
         owner: rocky
         group: rocky
         mode: '0755'

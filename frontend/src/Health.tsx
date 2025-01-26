@@ -5,6 +5,8 @@ import { useState } from 'react'
 function Health(){
       const API_URL = import.meta.env.VITE_API_URL;
       const HEALTH_URL = `${API_URL}/health`
+
+      console.log(HEALTH_URL)
     
       const [healthMessage, setHealthMessage] = useState<string | null>(null)
       

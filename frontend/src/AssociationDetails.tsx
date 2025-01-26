@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react"
+import { useState, FormEvent } from "react"
 import { CardData } from "./types"
 import { SocialIcon } from "react-social-icons";
 

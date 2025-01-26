@@ -1,8 +1,7 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import Card from './Card'
 import AssociationDetails from './AssociationDetails'
 import  cardsData  from "./data";
-import { CardData } from "./types" // l'interface CardData
 import Health from "./Health";
 // Import des icônes sociales
 import { SocialIcon } from 'react-social-icons'
@@ -10,7 +9,6 @@ import { SocialIcon } from 'react-social-icons'
 function App() {
 
   const [showOverlay, setShowOverlay] = useState(false)
-  const [selectedCard, setSelectedCard] = useState<CardData | null>(null)
 
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -20,10 +18,8 @@ function App() {
     setShowOverlay(true);
   };
   
-
   const handleCloseOverlay = () => {
     setShowOverlay(false)
-    setSelectedCard(null)
   }
 
   // Gestion du "précédent" et "suivant"

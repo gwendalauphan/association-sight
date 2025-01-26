@@ -38,6 +38,6 @@
         remote_src: no
 
     - name: (Re)Lancer l'application avec docker compose
-      command: docker compose up -d
+      command: docker compose up -d --force-recreate --remove-orphans --build
       args:
         chdir: /opt/flask_app

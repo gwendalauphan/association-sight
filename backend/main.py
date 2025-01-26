@@ -1,10 +1,15 @@
 # app/main.py
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+
 import sqlite3
 import os
 
 app = Flask(__name__)
+CORS(app)  # Autorise toutes les origines
+
 
 # On peut utiliser une variable d'environnement pour le chemin de la DB si besoin
 DATABASE_FILE = os.environ.get("DATABASE_FILE", "data.db")

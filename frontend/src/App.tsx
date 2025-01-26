@@ -3,10 +3,12 @@ import Card from './Card'
 import AssociationDetails from './AssociationDetails'
 import  cardsData  from "./data";
 import { CardData } from "./types" // l'interface CardData
+import Health from "./Health";
 // Import des icônes sociales
 import { SocialIcon } from 'react-social-icons'
 
 function App() {
+
   const [showOverlay, setShowOverlay] = useState(false)
   const [selectedCard, setSelectedCard] = useState<CardData | null>(null)
 
@@ -54,6 +56,7 @@ function App() {
           <p className="text-black text-l font-semibold p-4">
             Sight s'engage avec Dift et vous permet de soutenir gratuitement l'association de votre choix !
           </p>
+          <Health />
         </div>
       </header>
 

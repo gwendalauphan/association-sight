@@ -1,0 +1,42 @@
+name: Deploy swag config files
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'swag/**'   # Se déclenche uniquement si des fichiers dans backend/ changent
+      - '.github/workflows/**'
+      - 'ansible/**'
+
+jobs:
+  deploy-swag:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1. Récupère le code
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2. Configure la clé SSH
+      #    On écrit la clé privée depuis le secret GitHub
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+        shell: bash
+
+      # 3. Installer Ansible
+      #    (selon ton runner Ubuntu, Ansible n'est pas forcément installé par défaut)
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+        shell: bash
+
+      # 4. Lancer le playbook Ansible
+      - name: Run ansible-playbook
+        run: |
+          cd ansible/
+          ansible-playbook swag-deploy.yaml 
+        shell: bash

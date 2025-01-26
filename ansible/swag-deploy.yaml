@@ -1,0 +1,25 @@
+---
+- name: Déployer l'application Flask sur le VPS
+  hosts: vps
+  become: true  # si vous avez besoin d'élévation de privilèges pour exécuter Docker
+
+  tasks:
+    - name: Vérifier si le dossier /home/rocky/swagconfig existe
+      stat:
+        path: /home/rocky/swagconfig
+      register: swagconfig_dir
+
+    - name: Mettre à jour le dossier swag/proxy-confs
+      copy:
+        src: ../swag/proxy-confs
+        dest: /home/rocky/swagconfig/proxy-confs
+        owner: rocky
+        group: rocky
+        mode: '0755'
+        remote_src: no
+      when: swagconfig_dir.stat.exists
+    
+    - name: relancer le conteneur swag
+      command: docker restart swag
+      ignore_errors: true  # si jamais on n'a pas encore déployé, on ignore les erreurs
+    

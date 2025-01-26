@@ -38,5 +38,5 @@ jobs:
       - name: Run ansible-playbook
         run: |
           cd ansible/
-          ansible-playbook deploy.yaml 
+          ansible-playbook backend-deploy.yaml
         shell: bash

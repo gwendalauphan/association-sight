@@ -1,8 +1,8 @@
 version: "3.9"
 
 services:
-  flask-app:
-    container_name: flask-app
+  apisight:
+    container_name: apisight
     build: .
     # Dans le cas où vous auriez besoin d'un restart automatique en cas de crash
     restart: unless-stopped
@@ -13,11 +13,11 @@ services:
 
     # On définit un volume pour persister les données SQLite, monté dans /app/data
     volumes:
-      - flask_data:/app/data
+      - apisight_data:/app/data
 
     # Variable d'environnement pour localiser la base de données
     environment:
       - DATABASE_FILE=/app/data/data.db
 
 volumes:
-  flask_data:
+  apisight_data:

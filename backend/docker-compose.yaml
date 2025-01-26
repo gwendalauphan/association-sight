@@ -23,3 +23,7 @@ services:
 
 volumes:
   apisight_data:
+
+networks:
+  apisight_network:
+    driver: bridge

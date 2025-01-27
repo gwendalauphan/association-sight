@@ -12,7 +12,7 @@
     - name: Mettre à jour les fichiers dans swag/proxy-confs
       copy:
         src: ../swag/proxy-confs/
-        dest: /home/rocky/swagconfig/proxy-confs/
+        dest: /home/rocky/swagconfig/nginx/proxy-confs/
         owner: rocky
         group: rocky
         mode: '0755'
@@ -20,7 +20,7 @@
       when: swagconfig_dir.stat.exists
 
     - name: Ajouter swag au réseau apisight_network
-      command: docker network connect apisight_network swag
+      command: docker network connect app_flask_apisight_network swag
       ignore_errors: true  # si jamais on n'a pas encore déployé, on ignore les erreurs
     
     - name: relancer le conteneur swag

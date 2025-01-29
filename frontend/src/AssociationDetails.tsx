@@ -3,13 +3,6 @@ import { CardData } from "./types"
 import { SocialIcon } from "react-social-icons";
 import { submitVote, VotePayload } from "./Vote";
 
-interface VoteFormProps {
-  title: string;
-}
-
-// Exemple d'URL d'API
-const API_URL = import.meta.env.VITE_API_URL;
-const SUBMIT_VOTE_URL = `${API_URL}/submit-vote`;
 
 interface AssociationDetailsProps {
     onClose: () => void;

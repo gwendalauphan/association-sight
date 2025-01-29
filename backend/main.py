@@ -41,6 +41,41 @@ def count_vote():
     return jsonify({"count": result["count"]})
 
 @app.route("/submit-vote", methods=["POST"])
+def submit_vote():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    data = request.get_json() or {}
+    username = data.get("username", "").strip()
+    vote = data.get("title", "").strip()
+    email = data.get("email", "").strip()
+    petitMot = data.get("petitMot", "").strip()
+
+    # Vérification : username obligatoire
+    if not username:
+        conn.close()
+        return jsonify({"message": "Le champ 'username' est requis."}), 400
+
+    # Vérifier si le username existe déjà
+    existing_user = cursor.execute(
+        "SELECT * FROM users WHERE username = ?",
+        (username,)
+    ).fetchone()
+
+    if existing_user:
+        conn.close()
+        return jsonify({"message": "Vous avez déjà effectué votre vote"}), 400
+
+    # Insérer le vote dans la base
+    cursor.execute(
+        "INSERT INTO users (username, vote, email, petitMot) VALUES (?, ?, ?, ?)",
+        (username, vote, email, petitMot)
+    )
+    conn.commit()
+    conn.close()
+
+    return jsonify({"message": "Vote enregistré avec succès"}), 200
+
 
 
 

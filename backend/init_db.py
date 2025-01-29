@@ -10,7 +10,7 @@ def init_db():
 
     # Création d'une table "users" avec un username unique et un vote éventuellement null
     c.execute('''
-        CREATE TABLE IF NOT EXISTS users (
+        CREATE TABLE IF NOT EXISTS votes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             vote TEXT,

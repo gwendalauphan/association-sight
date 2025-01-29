@@ -58,7 +58,7 @@ def submit_vote():
 
     # Vérifier si le username existe déjà
     existing_user = cursor.execute(
-        "SELECT * FROM users WHERE username = ?",
+        "SELECT * FROM votes WHERE username = ?",
         (username,)
     ).fetchone()
 
@@ -68,7 +68,7 @@ def submit_vote():
 
     # Insérer le vote dans la base
     cursor.execute(
-        "INSERT INTO users (username, vote, email, petitMot) VALUES (?, ?, ?, ?)",
+        "INSERT INTO votes (username, vote, email, petitMot) VALUES (?, ?, ?, ?)",
         (username, vote, email, petitMot)
     )
     conn.commit()

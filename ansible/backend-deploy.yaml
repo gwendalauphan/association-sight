@@ -11,7 +11,7 @@
 
     - name: Arrêter et supprimer d'anciens conteneurs (s'il y en a)
       when: flask_app_dir.stat.exists
-      command: docker compose down
+      command: docker compose down -v
       args:
         chdir: /opt/flask_app
       ignore_errors: true  # si jamais on n'a pas encore déployé, on ignore les erreurs

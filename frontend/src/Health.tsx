@@ -1,7 +1,5 @@
 import { useState } from 'react'
 
-
-
 function Health(){
       const API_URL = import.meta.env.VITE_API_URL;
       const HEALTH_URL = `${API_URL}/health`

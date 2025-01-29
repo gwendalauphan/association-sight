@@ -1,8 +1,9 @@
 import { useState } from "react"
 import Card from './Card'
 import AssociationDetails from './AssociationDetails'
-import  cardsData  from "./data";
-import Health from "./Health";
+import { cardsData, developerInfo }  from "./data";
+//import Health from "./Health";
+import CountVote from "./Vote";
 // Import des icônes sociales
 import { SocialIcon } from 'react-social-icons'
 
@@ -52,7 +53,8 @@ function App() {
           <p className="text-black text-l font-semibold p-4">
             Sight s'engage avec Dift et vous permet de soutenir gratuitement l'association de votre choix !
           </p>
-          <Health />
+          <CountVote />
+          {/* <Health /> */}
         </div>
       </header>
 
@@ -61,13 +63,12 @@ function App() {
         {/* Section cartes */}
         <main className="py-8 px-10">
           <div
-            className="
+            className={`
               grid 
               gap-10
-              md:grid-cols-2 
-              lg:grid-cols-3
-              xl:grid-cols-3
-            "
+              grid-cols-1
+              ${cardsData.length > 1 ? 'md:grid-cols-2' : ''}
+            `}
           >
             {/* Répéter les Card autant de fois que nécessaire */}
             {cardsData.map((card, index) => (
@@ -76,7 +77,6 @@ function App() {
                 title={card.title}
                 imageUrl={card.imageUrl}
                 imagesCardDetails={card.imagesCardDetails}
-                buttonText={card.buttonText}
                 description={card.description}
                 tags={card.tags}
                 onButtonClick={() => handleOpenOverlay(index)}
@@ -100,26 +100,52 @@ function App() {
 
       {/* Footer */}
       <footer className="bg-gray-100 py-4 mt-auto">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-          <div className="text-sm text-gray-600">
-            Développé par 
-            {' '}
-            <a 
-              href="https://www.linkedin.com/in/votreLinkedIn" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="text-blue-600 underline"
-            >
-              VotreNom
-            </a>
-          </div>
-          <div className="flex space-x-2 mt-2 md:mt-0">
-            <SocialIcon url="https://twitter.com/votreEntreprise" style={{ height: 30, width: 30 }} />
-            <SocialIcon url="https://facebook.com/votreEntreprise" style={{ height: 30, width: 30 }} />
-            <SocialIcon url="https://linkedin.com/company/votreEntreprise" style={{ height: 30, width: 30 }} />
-          </div>
+      <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between px-4">
+        {/* Crédit développeur */}
+        <div className="text-sm text-gray-600 items-center">
+          Développé par{' '}
+          <a
+            href={developerInfo.linkedInUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 underline"
+          >
+            {developerInfo.name}
+          </a>
+          {" "}
+          <SocialIcon
+            key={developerInfo.name}
+            url={developerInfo.linkedInUrl}
+            style={{ height: 25, width: 25 }}
+            target="_blank"
+            rel="noopener noreferrer"
+            />
+          <div>© 2025</div>
         </div>
-      </footer>
+
+        {/* Barre de séparation pour les petits écrans */}
+        <div className="sm:hidden block border-t border-gray-500 w-1/6 my-4 mx-auto"></div>
+
+        {/* Icônes de réseaux sociaux */}
+        <div className="mt-2 flex gap-4 items-center">
+          <a
+            href={developerInfo.enterpriseUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-black underline"
+          >
+            {developerInfo.enterpriseName}
+          </a>
+
+
+            <img
+              src="logo_sight.gif"
+              alt="Company Animation"
+              className="h-12 w-auto bg-black"
+            />
+        </div>
+      </div>
+    </footer>
     </div>
   )
 }

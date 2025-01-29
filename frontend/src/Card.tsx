@@ -12,15 +12,15 @@ function Card({
   title,
   imageUrl,
   imagesCardDetails,
-  buttonText,
   description,
   tags,
+  details,
   onButtonClick,
 }: CardProps) {
     const handleClick = () => {
         if (onButtonClick) {
             // On envoie toutes les données de la carte
-            onButtonClick({ title, imageUrl, imagesCardDetails, buttonText, description, tags })
+            onButtonClick({ title, imageUrl, imagesCardDetails, description, tags, details })
         }
     }
   return (
@@ -66,7 +66,7 @@ function Card({
             hover:bg-gray-800
           "
         >
-          {buttonText}
+          Soutenir gratuitement
         </button>
       </div>
     </div>

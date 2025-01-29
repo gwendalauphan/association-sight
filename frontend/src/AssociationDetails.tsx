@@ -5,6 +5,7 @@ import { SocialIcon } from "react-social-icons";
 
 // Exemple d'URL d'API
 const API_URL = import.meta.env.VITE_API_URL;
+const SUBMIT_VOTE_URL = `${API_URL}/submit-vote`;
 
 interface AssociationDetailsProps {
     onClose: () => void;
@@ -12,6 +13,19 @@ interface AssociationDetailsProps {
     onPrev?: () => void;
     onNext?: () => void;
   }
+
+function convertYouTubeUrlToEmbed(url: string) {
+  // Méthode simple : récupérer la partie après "v="
+  const videoId = url.split('v=')[1];
+  // Parfois, il y a un "&" ensuite pour d’autres paramètres
+  const ampersandPosition = videoId.indexOf('&');
+  const cleanVideoId =
+    ampersandPosition !== -1
+      ? videoId.substring(0, ampersandPosition)
+      : videoId;
+
+  return `https://www.youtube.com/embed/${cleanVideoId}`;
+}
 
 function AssociationDetails({   
     onClose,
@@ -36,9 +50,10 @@ function AssociationDetails({
       title,
       imagesCardDetails,
       description,
-      // buttonText, // on n'affiche plus le bouton d'action principal
       tags,
+      details,
     } = cardData;
+    
   
     const handleShowMore = () => {
       setShowMore(!showMore);
@@ -53,7 +68,7 @@ function AssociationDetails({
 
     // Vérifier que username est renseigné
     if (!username.trim()) {
-      setErrorMessage("Veuillez renseigner votre nom / prénom.");
+      setErrorMessage("Veuillez renseigner votre username");
       return;
     }
 
@@ -71,7 +86,7 @@ function AssociationDetails({
     }
 
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(SUBMIT_VOTE_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -195,17 +210,52 @@ function AssociationDetails({
                   place-items-center
                   w-full
                   h-full
-                  ${imagesCardDetails.length > 1 ? 'sm:grid-cols-2' : ''}
                 `}
                 >
-                {imagesCardDetails.map((src, idx) => (
-                    <img
-                    key={idx}
-                    src={src}
-                    alt={`Image ${idx}`}
-                    className="w-full h-full object-cover rounded"
-                    />
-                ))}
+                {imagesCardDetails.map((media, idx) => {
+                      if (media.type === 'image') {
+                        // Cas image
+                        return (
+                          <img
+                            key={idx}
+                            src={media.src}
+                            alt={`Media ${idx}`}
+                            className="w-full h-full object-cover rounded"
+                          />
+                        );
+                      } else if (media.type === 'video') {
+                        // Cas vidéo
+                        if (media.isYouTube) {
+                          // Vidéo YouTube => iframe ou composant dédié
+                          // Pour utiliser l'embed, il faut transformer l'URL
+                          // en https://www.youtube.com/embed/{VIDEO_ID}
+
+                          // Option la plus simple si tu stockes déjà l'URL embed :
+                          // <iframe src={media.src} ... />
+
+                          return (
+                            <iframe
+                              key={idx}
+                              className="w-full h-full rounded"
+                              src={convertYouTubeUrlToEmbed(media.src)}
+                              allowFullScreen
+                              title={`YouTube video ${idx}`}
+                            />
+                          );
+                        } else {
+                          // Vidéo locale => <video>
+                          return (
+                            <video
+                              key={idx}
+                              src={media.src}
+                              controls
+                              className="w-full h-full object-cover rounded"
+                            />
+                          );
+                        }
+                      }
+                      return null;
+                    })}
                 </div>
             </div>
 
@@ -359,69 +409,86 @@ function AssociationDetails({
           <hr className="my-6 border-t border-gray-300" />
     
               {/* Section "En savoir plus" (affichage conditionnel) */}
-          {showMore && (
-            <div className="space-y-4">
-              {/* Mise en grille (3 colonnes sur grand écran, adaptatif) */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Le projet</h3>
-                  <p className="text-gray-700">
-                    Projet autour de la protection de l’environnement.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">La solution</h3>
-                  <p className="text-gray-700">
-                    Mise en place de actions concrètes pour réduire l'impact
-                    écologique.
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Labels décernés</h3>
-                  <p className="text-gray-700">
-                    Reconnaissances officielles (Label X, Certification Y, etc.)
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">Objectifs</h3>
-                  <ul className="list-disc list-inside text-gray-700">
-                    <li>Sensibiliser le grand public</li>
-                    <li>Planter 1000 arbres / an</li>
-                    <li>Éduquer les plus jeunes</li>
-                  </ul>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">
-                    Liens & Réseaux
-                  </h3>
-                  <p className="text-gray-700 mb-2">
-                    <a
-                      href="https://www.exemple-asso.org"
-                      className="text-blue-600 underline"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Site officiel
-                    </a>
-                  </p>
-                  <div className="flex space-x-2">
-                    <SocialIcon url="https://twitter.com/exempleAsso" style={{ height: 30, width: 30 }} />
-                    <SocialIcon url="https://facebook.com/exempleAsso" style={{ height: 30, width: 30 }} />
-                    <SocialIcon url="https://instagram.com/exempleAsso" style={{ height: 30, width: 30 }} />
+              {showMore && (
+                <div className="space-y-4">
+                  {/* Mise en grille (3 colonnes sur grand écran, adaptatif) */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {/* Le projet */}
+                    <div>
+                      <h3 className="text-black text-lg font-semibold mb-2">Le projet</h3>
+                      <p className="text-gray-700">
+                        {details?.project}
+                      </p>
+                    </div>
+
+                    {/* La solution */}
+                    <div>
+                      <h3 className="text-black text-lg font-semibold mb-2">La solution</h3>
+                      <p className="text-gray-700">
+                        {details?.solution}
+                      </p>
+                    </div>
+
+                    {/* Labels décernés */}
+                    <div className={details?.labels ? "" : "hidden"}>
+                      <h3 className="text-black text-lg font-semibold mb-2">Labels décernés</h3>
+                      <p className="text-gray-700">
+                        {details?.labels}
+                      </p>
+                    </div>
+
+                    {/* Objectifs */}
+                    <div>
+                      <h3 className="text-black text-lg font-semibold mb-2">Objectifs</h3>
+                      <ul className="list-disc list-inside text-gray-700">
+                        {details?.goals?.map((goal) => (
+                          <li key={goal}>{goal}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Liens & Réseaux */}
+                    <div>
+                      <h3 className="text-black text-lg font-semibold mb-2">Liens & Réseaux</h3>
+                      {/* Site officiel */}
+                      <p className="text-gray-700 mb-2">
+                        <a
+                          href={details?.officialWebsite}
+                          className="text-blue-600 underline"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Site officiel
+                        </a>
+                      </p>
+
+                      {/* Réseaux sociaux */}
+                      <div className="flex space-x-2">
+                        {details?.socialLinks?.map((socialUrl) => (
+                          <SocialIcon
+                            key={socialUrl}
+                            url={socialUrl}
+                            style={{ height: 30, width: 30 }}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* À quoi serviront les dons ? */}
+                    <div>
+                      <h3 className="text-black text-lg font-semibold mb-2">
+                        À quoi serviront les dons ?
+                      </h3>
+                      <p className="text-gray-700">
+                        {details?.donationsUse}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold mb-2">
-                    À quoi serviront les dons ?
-                  </h3>
-                  <p className="text-gray-700">
-                    Financer des outils et du matériel pour le reboisement,
-                    soutenir la logistique, etc.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+              )}
+
 
           {/* Bouton "En savoir plus" ou "Réduire" tout en bas */}
           <div className="mt-6 flex justify-center">

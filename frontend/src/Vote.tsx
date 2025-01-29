@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-function CountVote(){
+export function CountVote(){
     const API_URL = import.meta.env.VITE_API_URL;
     const COUNT_VOTE_URL = `${API_URL}/count-vote`
 
@@ -28,5 +28,48 @@ function CountVote(){
         </div>
     );
 }
+
+
+export interface VotePayload {
+    title: string;
+    username: string;
+    email?: string;
+    petitMot?: string;
+}
+
+export async function submitVote(
+    payload: VotePayload,
+  ): Promise<{ success: true } | { success: false; error: string }> {
+
+    const API_URL = import.meta.env.VITE_API_URL;
+    const SUBMIT_VOTE_URL = `${API_URL}/submit-vote`
+    try {
+      const response = await fetch(SUBMIT_VOTE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+      
+      if (response.ok) {
+        // Succès
+        return { success: true };
+      } else {
+        // On tente de récupérer le message d'erreur renvoyé par l'API
+        const errorData = await response.json().catch(() => ({}));
+        const apiErrorMsg =
+          errorData?.message ||
+          "Une erreur est survenue lors de la soumission.";
+        return { success: false, error: apiErrorMsg };
+      }
+    } catch (error) {
+      // Erreur réseau ou autre
+      return {
+        success: false,
+        error: "Impossible de contacter le serveur. Réessayez plus tard.",
+      };
+    }
+  }
 
 export default CountVote;

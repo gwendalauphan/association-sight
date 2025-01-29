@@ -1,7 +1,11 @@
 import { useState, FormEvent } from "react"
 import { CardData } from "./types"
 import { SocialIcon } from "react-social-icons";
+import { submitVote, VotePayload } from "./Vote";
 
+interface VoteFormProps {
+  title: string;
+}
 
 // Exemple d'URL d'API
 const API_URL = import.meta.env.VITE_API_URL;
@@ -45,7 +49,40 @@ function AssociationDetails({
     // État local pour les messages
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-  
+
+    // Gestion du clic sur “Soutenir gratuitement”
+    const handleSubmit = async (e: FormEvent) => {
+      e.preventDefault();
+      // Réinitialiser les messages
+      setErrorMessage("");
+      setSuccessMessage("");
+
+      // Vérifier que username est renseigné
+      if (!username.trim()) {
+        setErrorMessage("Veuillez renseigner votre username");
+        return;
+      }
+
+      // Construire le payload à envoyer
+      const payload: VotePayload = {
+        title,
+        username,
+        // Ajout email seulement s'il existe
+        ...(email.trim() ? { email: email.trim() } : {}),
+        // Ajout petitMot seulement si tu veux l'envoyer
+        ...(petitMot.trim() ? { petitMot: petitMot.trim() } : {}),
+      };
+
+      // Appel à la fonction externe
+      const result = await submitVote(payload);
+
+      if (result.success) {
+        setSuccessMessage("Votre vote a bien été pris en compte.");
+      } else {
+        setErrorMessage(result.error);
+      }
+    };
+
     const {
       title,
       imagesCardDetails,
@@ -59,57 +96,6 @@ function AssociationDetails({
       setShowMore(!showMore);
     };
 
-    // Gestion du clic sur “Soutenir gratuitement”
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    // Réinitialiser les messages
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    // Vérifier que username est renseigné
-    if (!username.trim()) {
-      setErrorMessage("Veuillez renseigner votre username");
-      return;
-    }
-
-    // Construire le body à envoyer
-    const payload: any = {
-      title,      // le title de la carte
-      username,   // l'utilisateur
-      // petitMot n'est pas forcément envoyé, 
-      // sauf si vous le souhaitez (ex: payload.petitMot = petitMot)
-    };
-
-    // Ajouter l'email uniquement s'il est non vide (et éventuellement si vous validez le format)
-    if (email.trim()) {
-      payload.email = email.trim();
-    }
-
-    try {
-      const response = await fetch(SUBMIT_VOTE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (response.ok) {
-        // Succès
-        setSuccessMessage("Votre vote a bien été pris en compte.");
-      } else {
-        // On tente de récupérer le message d'erreur renvoyé par l'API
-        const errorData = await response.json().catch(() => ({}));
-        const apiErrorMsg =
-          errorData?.message || "Une erreur est survenue lors de la soumission.";
-        setErrorMessage(apiErrorMsg);
-      }
-    } catch (err) {
-      // Erreur réseau ou autre
-      setErrorMessage("Impossible de contacter le serveur. Réessayez plus tard.");
-    }
-  };
-  
 
     return (
         <div

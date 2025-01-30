@@ -56,6 +56,15 @@ function AssociationDetails({
         return;
       }
 
+      //Create a popup to confirm the vote and say that you can only vote once
+      if (confirm("Voulez-vous vraiment voter pour cette association ? Vous ne pourrez voter qu'une seule fois.")) {
+        console.log("You pressed OK!");
+      } else {
+        console.log("You pressed Cancel!");
+        return;
+      }
+      
+
       // Construire le payload à envoyer
       const payload: VotePayload = {
         title,

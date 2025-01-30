@@ -23,7 +23,7 @@ export function CountVote(){
     }, []);
 
     return (
-        <div className='mt-2 text-md text-gray-800 font-semibold'>
+        <div className='text-gray-800 font-semibold'>
             A voté: {voteCount !== null ? voteCount + " personnes" : 'Chargement...'}
         </div>
     );

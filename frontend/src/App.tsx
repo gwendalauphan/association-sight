@@ -36,30 +36,52 @@ function App() {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen bg-cover bg-center"
+    <div className="relative flex flex-col min-h-screen bg-cover bg-center bg-fixed"
       style={{ 
         backgroundImage: "url('aqua-grey-theme.png')" 
       }}
       >
       {/* Header */}
-      <header className=" p-6">
-        <div className="max-w-4xl mx-auto text-center ">
+      <header className="relative p-6 z-10 sticky top-0 ">
+        <div className="max-w-5xl mx-auto text-center relative ">
           {/* Logo de la boîte */}
           <img
             src="logo_sight.png"
             alt="Company Logo"
-            className="mx-auto h-32 w-auto"
+            className="mx-auto w-36 sm:w-40 md:w-48 h-auto"
           />
-          <p className="text-black text-l font-semibold p-4">
-            Sight s'engage avec Dift et vous permet de soutenir gratuitement l'association de votre choix !
+
+          {/* Div CountVote */}
+          <div className="absolute font-bold text-black top-0 right-0 p-2 xs:p-3 md:p-4 text-[12px] md:text-base bg-white rounded-md shadow-md w-20 md:w-auto">
+            <CountVote />
+          </div>
+          <p className="text-black text-base md:text-lg p-4 pt-6 space-y-4">
+          <span className="block">
+          <strong className="font-bold">Chez Sight, nous avons à cœur d'avoir un impact positif sur "l'Outside World".</strong>
+            </span>
+            <span className="block">
+              Cette année, à l’occasion de notre soirée de l’engagement, nous mettons en lumière <strong className="font-bold">deux associations</strong> qui portent des causes qui nous tiennent à cœur.
+            </span>
+
+            <span className="block">
+              <strong className="font-bold">Découvrez ce soir Futur Asso et Les Enfants de La Balle :</strong> deux organisations qui agissent pour un monde meilleur. 
+              C'est l’occasion de mieux les connaître, de parler d'elles et surtout, de les soutenir. Votez pour celle qui résonne le plus en vous !
+            </span>
+
+            <span className="block">
+               Une enveloppe de <strong className="font-bold">2000 €</strong> sera répartie entre ces associations en fonction du nombre de votes.
+               <strong className="font-bold block pt-6">À vous de jouer !</strong>
+            </span>
+
+            
           </p>
-          <CountVote />
+          
           {/* <Health /> */}
         </div>
       </header>
 
       {/* Section principale en blanc avec border-radius en haut */}
-      <div className="bg-white rounded-t-3xl -mt-2 pt-8">
+      <div className="bg-white rounded-t-3xl -mt-2 pt-8 z-20">
         {/* Section cartes */}
         <main className="py-8 px-10">
           <div
@@ -99,7 +121,7 @@ function App() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-100 py-4 mt-auto">
+      <footer className="bg-gray-100 py-2 md:py-4 mt-auto">
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between px-4">
         {/* Crédit développeur */}
         <div className="text-sm text-gray-600 items-center">
@@ -124,10 +146,10 @@ function App() {
         </div>
 
         {/* Barre de séparation pour les petits écrans */}
-        <div className="sm:hidden block border-t border-gray-500 w-1/6 my-4 mx-auto"></div>
+        <div className="sm:hidden block border-t border-gray-500 w-1/6 my-2 md:my-4 mx-auto"></div>
 
         {/* Icônes de réseaux sociaux */}
-        <div className="mt-2 flex gap-4 items-center">
+        <div className="my-2 md:my-4  flex gap-4 items-center">
           <a
             href={developerInfo.enterpriseUrl}
             target="_blank"
@@ -141,7 +163,7 @@ function App() {
             <img
               src="logo_sight.gif"
               alt="Company Animation"
-              className="h-12 w-auto bg-black"
+              className="h-8 md:h-12 w-auto bg-black"
             />
         </div>
       </div>

@@ -15,12 +15,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY init_db.py init_db.py
 COPY main.py main.py
 
-# 4) Initialiser la base de données
-RUN python init_db.py
-
-# 5) Exposer le port Flask (optionnel pour la documentation, dépendra de votre config)
+# 4) Exposer le port Flask (optionnel pour la documentation, dépendra de votre config)
 EXPOSE 5000
 
-# 6) Lancer l'application Flask
-CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "main:app"]
+# 5) Définir l'entrypoint pour initialiser la base de données et lancer l'application Flask
+ENTRYPOINT ["sh", "-c", "python init_db.py && exec gunicorn -w 4 -b 0.0.0.0:5000 main:app"]
 

@@ -70,7 +70,7 @@ jobs:
     
     # 7. Upload des artifacts (build)
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: actions/upload-pages-artifact@v4
       with:
         # Pour un projet Vite, la sortie du build est souvent "dist" (vérifie ton config)
         path: 'frontend/dist/'

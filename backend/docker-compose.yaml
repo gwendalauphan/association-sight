@@ -7,7 +7,6 @@ services:
       context: .
       dockerfile: Dockerfile
     
-    entrypoint: ["python", "app.py"]
     # Dans le cas où vous auriez besoin d'un restart automatique en cas de crash
     restart: unless-stopped
 

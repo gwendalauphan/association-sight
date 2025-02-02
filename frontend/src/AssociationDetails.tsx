@@ -125,7 +125,7 @@ function AssociationDetails({
             "
           >
           {/* Flèches pour changer de carte (top-left) */}
-          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2">
+          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2 overscroll-contain">
             <button
               onClick={onPrev}
               className="

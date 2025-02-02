@@ -108,6 +108,7 @@ function AssociationDetails({
             flex 
             items-center 
             justify-center
+            overflow-y-auto   /* Active le scroll sur l'arrière-plan */
           "
         >
           {/* Conteneur principal */}
@@ -125,7 +126,7 @@ function AssociationDetails({
             "
           >
           {/* Flèches pour changer de carte (top-left) */}
-          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2 overscroll-contain">
+          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2 z-10">
             <button
               onClick={onPrev}
               className="
@@ -174,6 +175,7 @@ function AssociationDetails({
               text-gray-600
               hover:text-gray-800
               text-3xl
+              z-20
             "
           >
             &times;

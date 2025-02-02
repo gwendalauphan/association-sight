@@ -66,7 +66,7 @@ function Card({
             hover:bg-gray-800
           "
         >
-          Soutenir gratuitement
+          Soutenir
         </button>
       </div>
     </div>

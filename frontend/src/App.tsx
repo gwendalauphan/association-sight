@@ -36,8 +36,11 @@ function App() {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen bg-cover bg-center bg-fixed"
-      style={{ 
+    <div className={`
+      relative flex flex-col min-h-screen bg-cover bg-center bg-fixed
+      ${showOverlay ? 'overflow-hidden' : 'overflow-auto'}
+    `}
+    style={{ 
         backgroundImage: "url('aqua-grey-theme.png')" 
       }}
       >

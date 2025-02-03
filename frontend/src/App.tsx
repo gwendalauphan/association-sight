@@ -36,10 +36,7 @@ function App() {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen bg-cover bg-center bg-fixed"
-      style={{ 
-        backgroundImage: "url('aqua-grey-theme.png')" 
-      }}
+    <div className="relative flex flex-col min-h-screen bg-cover bg-center bg-fixed bg-black"
       >
       {/* Header */}
       <header className="relative p-6 z-10 sticky top-0 ">
@@ -48,16 +45,16 @@ function App() {
           <img
             src="logo_sight.png"
             alt="Company Logo"
-            className="mx-auto w-36 sm:w-40 md:w-48 h-auto"
+            className="mx-auto w-48 sm:w-54 md:w-60 h-auto"
           />
 
           {/* Div CountVote */}
-          <div className="absolute font-bold text-black top-0 right-0 p-2 xs:p-3 md:p-4 text-[12px] md:text-base bg-white rounded-md shadow-md w-20 md:w-auto">
+          <div className="absolute font-bold text-white top-0 right-0 p-2 xs:p-3 md:p-4 text-[12px] md:text-base bg-white rounded-md shadow-md w-20 md:w-auto">
             <CountVote />
           </div>
-          <p className="text-black text-base md:text-lg p-4 pt-6 space-y-4">
+          <p className="text-white text-base md:text-lg p-4 space-y-4">
           <span className="block">
-          <strong className="font-bold">Chez Sight, nous avons à cœur d'avoir un impact positif sur "l'Outside World".</strong>
+          <strong className="font-bold">Au-delà de son développement organique, Sight considère comme enjeu majeur de sa fonction, l’impact qu’il aura sur le monde qui l’entoure. Au travers d’une démarche RSE forte, nous proposons à nos collaborateurs et nos clients de s’engager à nos côtés afin de contribuer à l’amélioration de notre société commune.</strong>
             </span>
             <span className="block">
               Cette année, à l’occasion de notre soirée de l’engagement, nous mettons en lumière <strong className="font-bold">deux associations</strong> qui portent des causes qui nous tiennent à cœur.

@@ -398,7 +398,7 @@ function AssociationDetails({
                     hover:shadow-md
                   "
                 >
-                  Soutenir gratuitement
+                  Soutenir
                 </button>
               </form>
             </div>

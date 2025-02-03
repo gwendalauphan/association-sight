@@ -49,7 +49,7 @@ export const cardsData: CardData[] = [
       description: "Les Enfants de la Balle facilite l’accès au sport pour les enfants ayant des handicaps invisibles grâce à un système de binôme avec des bénévoles.",
       tags: ["Social", "Inclusion", "Handicap"],
       details: {
-          project: "L’association Les Enfants de la Balle a pour objectif de créerune communauté de clubs sportifs inclusifspour les enfants en situation de handicap.",
+          project: "L’association Les Enfants de la Balle a pour objectif de créer une communauté de clubs sportifs inclusifs pour les enfants en situation de handicap.",
           solution: "Nous sensibilisons et formons toutes les parties prenantes du club qui interviennent dans la mise en œuvre de l’inclusion.",
           labels: "Label Solidarité & Inclusion 2022",
           goals: [

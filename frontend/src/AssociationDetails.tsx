@@ -1,10 +1,11 @@
-import { useState, FormEvent } from "react"
+import { useState, FormEvent, useEffect } from "react"
 import { CardData } from "./types"
 import { SocialIcon } from "react-social-icons";
 import { submitVote, VotePayload } from "./Vote";
 
 
 interface AssociationDetailsProps {
+    showOverlay: boolean;
     onClose: () => void;
     cardData: CardData;
     onPrev?: () => void;
@@ -25,6 +26,7 @@ function convertYouTubeUrlToEmbed(url: string) {
 }
 
 function AssociationDetails({   
+    showOverlay,
     onClose,
     cardData,
     onPrev,
@@ -98,6 +100,25 @@ function AssociationDetails({
       setShowMore(!showMore);
     };
 
+    useEffect(() => {
+      if (showOverlay) {
+        // Empêcher le scroll en arrière-plan
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Rétablir le scroll normal
+        document.body.style.overflow = 'auto';
+      }
+  
+      // Nettoyer au démontage pour éviter des effets de bord
+      return () => {
+        document.body.style.overflow = 'auto';
+      };
+    }, [showOverlay]);
+  
+    if (!showOverlay) {
+      return null; // ou return <></> si besoin
+    }
+
 
     return (
         <div
@@ -108,7 +129,7 @@ function AssociationDetails({
             flex 
             items-center 
             justify-center
-            overflow-y-auto   /* Active le scroll sur l'arrière-plan */
+            overscroll-contain
           "
         >
           {/* Conteneur principal */}
@@ -126,7 +147,7 @@ function AssociationDetails({
             "
           >
           {/* Flèches pour changer de carte (top-left) */}
-          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2 z-10">
+          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2 overscroll-contain">
             <button
               onClick={onPrev}
               className="
@@ -175,7 +196,6 @@ function AssociationDetails({
               text-gray-600
               hover:text-gray-800
               text-3xl
-              z-20
             "
           >
             &times;

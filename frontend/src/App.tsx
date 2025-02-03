@@ -36,11 +36,8 @@ function App() {
   };
 
   return (
-    <div className={`
-      relative flex flex-col min-h-screen bg-cover bg-center bg-fixed
-      ${showOverlay ? 'overflow-hidden' : 'overflow-auto'}
-    `}
-    style={{ 
+    <div className="relative flex flex-col min-h-screen bg-cover bg-center bg-fixed"
+      style={{ 
         backgroundImage: "url('aqua-grey-theme.png')" 
       }}
       >
@@ -112,6 +109,7 @@ function App() {
         {/* Affichage conditionnel de l'overlay */}
         {showOverlay && (
           <AssociationDetails
+            showOverlay={showOverlay}
             onClose={handleCloseOverlay}
             cardData={cardsData[selectedIndex]}
             onPrev={handlePrev}
@@ -176,4 +174,6 @@ function App() {
 }
 
 export default App
+
+
 

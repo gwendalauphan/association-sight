@@ -109,7 +109,6 @@ function App() {
         {/* Affichage conditionnel de l'overlay */}
         {showOverlay && (
           <AssociationDetails
-            showOverlay={showOverlay}
             onClose={handleCloseOverlay}
             cardData={cardsData[selectedIndex]}
             onPrev={handlePrev}

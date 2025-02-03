@@ -5,7 +5,6 @@ import { submitVote, VotePayload } from "./Vote";
 
 
 interface AssociationDetailsProps {
-    showOverlay: boolean;
     onClose: () => void;
     cardData: CardData;
     onPrev?: () => void;
@@ -25,8 +24,7 @@ function convertYouTubeUrlToEmbed(url: string) {
   return `https://www.youtube.com/embed/${cleanVideoId}`;
 }
 
-function AssociationDetails({   
-    showOverlay,
+function AssociationDetails({
     onClose,
     cardData,
     onPrev,
@@ -101,35 +99,26 @@ function AssociationDetails({
     };
 
     useEffect(() => {
-      if (showOverlay) {
-        // Empêcher le scroll en arrière-plan
-        document.body.style.overflow = 'hidden';
-      } else {
-        // Rétablir le scroll normal
-        document.body.style.overflow = 'auto';
-      }
-  
-      // Nettoyer au démontage pour éviter des effets de bord
+      // Au montage, on empêche le scroll du body
+      document.body.style.overflow = 'hidden';
+    
+      // Au démontage, on le rétablit
       return () => {
         document.body.style.overflow = 'auto';
       };
-    }, [showOverlay]);
-  
-    if (!showOverlay) {
-      return null; // ou return <></> si besoin
-    }
+    }, []);
 
 
     return (
         <div
           className="
-            fixed inset-0 
+            fixed top-0 left-0 
+            w-full h-full
             bg-black/50 
             z-50 
             flex 
             items-center 
             justify-center
-            overscroll-contain
           "
         >
           {/* Conteneur principal */}
@@ -139,15 +128,15 @@ function AssociationDetails({
               bg-white
               w-full
               max-w-screen-lg
-              mx-auto
+              max-h-full
               rounded-lg
               shadow-2xl
               overflow-y-auto
-              max-h-screen
+              overlay-container
             "
           >
           {/* Flèches pour changer de carte (top-left) */}
-          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2 overscroll-contain">
+          <div className="sticky top-0 left-4 flex space-x-2 font-semibold mb-2 p-2">
             <button
               onClick={onPrev}
               className="

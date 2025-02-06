@@ -1,4 +1,4 @@
-name: deploy-frontend v3
+name: deploy-frontend v4
 
 on:
   push:

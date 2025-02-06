@@ -1,4 +1,4 @@
-name: Deploy swag config files
+name: Deploy swag config files v2
 
 on:
   push:
